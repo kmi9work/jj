@@ -1,0 +1,53 @@
+<style>
+LI { list-style-type: none; } /* Убираем исходную нумерацию */
+OL { counter-reset: list1; } /* Инициируем счетчик */
+OL LI:before {
+ counter-increment: list1; /* Увеличиваем значение счетчика */
+ content: counter(list1) ". "; /* Выводим значение */
+}
+OL OL { counter-reset: list2; } /* Инициируем счетчик вложенного списка */
+OL OL LI:before {
+ counter-increment: list2; /* Увеличиваем значение счетчика */
+ content: counter(list1) "." counter(list2) ". "; /* Выводим значение типа 2.1, 2.2,... */
+}
+</style>
+<%= javascript_tag do %>
+<%= render partial: 'journals/copy_button.js' %>
+<% end %>
+<h1>Инструкция</h1>
+<ol>
+<li>Заходим на любую страницу ЖЖ, на которой есть интересующие вас пользователи. (Либо какой-то блог, либо топ и тд.) Например: <%= link_to "Топ ЖЖ", "http://www.livejournal.com/ratings/users?country=cyr&page=100" %> </li>
+
+<li>Нажимаем ctrl+shift+j (В chrome и Opera) или ctrl+shift+K (В firefox)</li>
+<font size="5">В хроме: </font><%= image_tag "console_chrome.png", width: 500, border: 1 %>
+<font size="5">В firefox: </font><%= image_tag "console_firefox.png", width: 500, border: 1 %>
+<li>В появившимся окне находим строку ввода, вставляем туда следующий текст и копируем текст в появившемся окошке:</li><br>
+<div style="border: 1px solid gray; background-color: #dddddd">
+function copyToClipboard(text) {   window.prompt("Скопировать: Ctrl+C, Enter", text); };  var arr = []; jQuery('a.i-ljuser-username').each(function(){      str = $(this).href;     if ( /.+livejournal\.com\//.test(str) ) {         arr.push($(this).innerText);     } }); jQuery.unique(arr); str = arr.join("\n") + "\n";  copyToClipboard(str); document.getElementById("hello-world").scrollIntoView();
+</div>
+<button id="copy-button" data-clipboard-text="function copyToClipboard(text) {   window.prompt('Скопировать: Ctrl+C, Enter', text); };  var arr = []; jQuery('a.i-ljuser-username').each(function(){      str = $(this).href;     if ( /.+livejournal\.com\//.test(str) ) {         arr.push($(this).innerText);     } }); jQuery.unique(arr); str = arr.join('\n') + '\n';  copyToClipboard(str); document.getElementById('hello-world').scrollIntoView();" title="Скопировать.", style="padding: 10px 15px; background: #4479BA; color: #FFF;">Скопировать</button>
+<%= javascript_tag do %>
+  $(document).ready(function(){
+    var client = new ZeroClipboard( document.getElementById("copy-button") );
+    });
+<% end %>
+<br>
+<li>Это список всех пользователей ЖЖ на странице.</li>
+<li>Теперь вставляйте этот список сюда(Можно в это окно копировать сколько угодно пользователей. Главное, чтобы каждый из них был на новой строке):</li>
+<%= text_area_tag "users", "", cols: 30, rows: 20 %>
+<li>Заходите на <%= link_to "страницу добавления друзей в ЖЖ", "http://www.livejournal.com/friends/edit.bml" %>. Открывайте там консоль (см. пункт 2). Удобно открыть сразу несколько страниц.</li>
+<li>Дальнейшая деятельность будет происходить следующим образом: </li>
+  <ol>
+    <li>Нажимаете кнопку "Обработать" (ниже).</li>
+    <li>Нажимаете кнопку "Скопировать очередную партию".</li>
+    <li>Вставляете это в открытую в п. 6 консоль. Нажимаете enter.</li>
+    <li>Переходите к п.7.2</li>
+  </ol>
+<br> 
+<li><%= link_to "Обработать", "#", id: "go", style:"padding: 10px 15px; background: #4479BA; color: #FFF;"%></li>
+
+
+</ol>
+
+
+<%= link_to 'New Journal', new_journal_path %>

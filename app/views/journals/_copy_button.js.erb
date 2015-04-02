@@ -1,0 +1,22 @@
+var $d;
+$(document).ready(function(){
+  $('#go').on('click', function(){
+    $.post('/go', {data: $('#users').val()}, function(data) {
+      $d = data;
+      console.log($d);
+      jQuery.each($d, function( index, value ){
+        $('#go').after('<br><br><button id="copy-button' + index + '" data-clipboard-text="' + value + '" title="Скопировать очередную партию.", style="padding: 10px 15px; background: #4479BA; color: #FFF;">Скопировать очередную партию</button>');
+        var client = new ZeroClipboard( document.getElementById("copy-button" + index) );
+        client.on( "ready", function( readyEvent ) {
+          client.on( "aftercopy", function( event ) {
+            $('#copy-button' + index).html("Скопировано");
+          } );
+        });
+        // $('#go').after('<div><a href="#" id="copy' + index + '">Скопировать часть '+ index + '</a><input type="hidden" id="hidden' + index + '" value=""></div>');
+      })
+    });
+    return false;
+  });
+});
+
+  
