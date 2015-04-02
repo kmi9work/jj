@@ -1,10 +1,12 @@
 var $d;
 $(document).ready(function(){
   $('#go').on('click', function(){
+    var i = 0;
     $.post('/go', {data: $('#users').val()}, function(data) {
       $d = data;
       console.log($d);
       jQuery.each($d, function( index, value ){
+        i = index;
         $('#go').after('<br><br><button id="copy-button' + index + '" data-clipboard-text="' + value + '" title="Скопировать очередную партию.", style="padding: 10px 15px; background: #4479BA; color: #FFF;">Скопировать очередную партию</button>');
         var client = new ZeroClipboard( document.getElementById("copy-button" + index) );
         client.on( "ready", function( readyEvent ) {
@@ -15,6 +17,7 @@ $(document).ready(function(){
         // $('#go').after('<div><a href="#" id="copy' + index + '">Скопировать часть '+ index + '</a><input type="hidden" id="hidden' + index + '" value=""></div>');
       })
     });
+    document.getElementById("copy-button" + i).scrollIntoView();
     return false;
   });
 });
