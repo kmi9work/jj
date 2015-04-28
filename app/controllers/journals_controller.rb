@@ -9,7 +9,7 @@ class JournalsController < ApplicationController
 
   def go
     arr = params[:data]
-    arr = arr.split.uniq
+    arr = arr.split.uniq.delete_if{|str| str == "ilovehate"}
     index = 0
     texts = []
     while index < arr.count
