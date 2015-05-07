@@ -53,6 +53,5 @@ group :production do
   gem 'unicorn'
 end
 
-
 gem 'zeroclipboard-rails'
 
