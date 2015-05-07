@@ -4,6 +4,8 @@ application = 'jj'
 set :rvm_type, :user
 set :rvm_ruby_version, '2.2.0'
 set :deploy_to, '/var/www/apps/jj'
+set :pty, true
+
 
 namespace :foreman do
   desc 'Start server'
@@ -58,7 +60,7 @@ namespace :deploy do
       execute "mkdir  /var/www/apps/#{application}/log/"
       execute "mkdir  /var/www/apps/#{application}/socket/"
       execute "mkdir #{shared_path}/system"
-      sudo "ln -s /var/log/upstart /var/www/log/upstart"
+      sudo "ln -s /var/www/log/upstart /var/log/upstart"
 
       upload!('shared/database.yml', "#{shared_path}/config/database.yml")
       
