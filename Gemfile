@@ -52,6 +52,5 @@ end
 group :production do
   gem 'unicorn'
 end
-gem 'foreman'
 gem 'zeroclipboard-rails'
 
